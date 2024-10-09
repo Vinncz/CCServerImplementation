@@ -1,0 +1,7 @@
+.build
+.xcodeproj
+.DS_Store
+Pods
+Podfile.lock
+package-lock.json
+.vscode

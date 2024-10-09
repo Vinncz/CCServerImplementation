@@ -4,6 +4,11 @@
 <dict>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
+		<key>NSBonjourServices</key>
+		<array>
+			<string>_criminal-crew._tcp</string>
+			<string>_criminal-crew._udp</string>
+		</array>
 		<key>UIApplicationSupportsMultipleScenes</key>
 		<false/>
 		<key>UISceneConfigurations</key>

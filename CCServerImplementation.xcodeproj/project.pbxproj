@@ -6,26 +6,17 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		20FA9F472CADBE9C006AEFAE /* GamePantry in Frameworks */ = {isa = PBXBuildFile; productRef = 20FA9F462CADBE9C006AEFAE /* GamePantry */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		200C1ED92CADA7AD003B79FD /* CCServerImplementation.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CCServerImplementation.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
-/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		200C1EEB2CADA7AE003B79FD /* Exceptions for "CCServerImplementation" folder in "CCServerImplementation" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				Info.plist,
-			);
-			target = 200C1ED82CADA7AD003B79FD /* CCServerImplementation */;
-		};
-/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
-
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		200C1EDB2CADA7AD003B79FD /* CCServerImplementation */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				200C1EEB2CADA7AE003B79FD /* Exceptions for "CCServerImplementation" folder in "CCServerImplementation" target */,
-			);
 			path = CCServerImplementation;
 			sourceTree = "<group>";
 		};
@@ -36,6 +27,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				20FA9F472CADBE9C006AEFAE /* GamePantry in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -78,6 +70,8 @@
 			);
 			name = CCServerImplementation;
 			packageProductDependencies = (
+				200C1EF32CADA82B003B79FD /* GamePantry */,
+				20FA9F462CADBE9C006AEFAE /* GamePantry */,
 			);
 			productName = CCServerImplementation;
 			productReference = 200C1ED92CADA7AD003B79FD /* CCServerImplementation.app */;
@@ -107,6 +101,9 @@
 			);
 			mainGroup = 200C1ED02CADA7AD003B79FD;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				20FA9F452CADBE9C006AEFAE /* XCRemoteSwiftPackageReference "GamePantry" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 200C1EDA2CADA7AD003B79FD /* Products */;
 			projectDirPath = "";
@@ -335,6 +332,29 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		20FA9F452CADBE9C006AEFAE /* XCRemoteSwiftPackageReference "GamePantry" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Vinncz/GamePantry";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.1.2;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		200C1EF32CADA82B003B79FD /* GamePantry */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = GamePantry;
+		};
+		20FA9F462CADBE9C006AEFAE /* GamePantry */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 20FA9F452CADBE9C006AEFAE /* XCRemoteSwiftPackageReference "GamePantry" */;
+			productName = GamePantry;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 200C1ED12CADA7AD003B79FD /* Project object */;
 }

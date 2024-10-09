@@ -1,0 +1,15 @@
+{
+  "originHash" : "ab734991247345f10c91aa9586f3cf737f7dd5e35e66bd8242880832428ff717",
+  "pins" : [
+    {
+      "identity" : "gamepantry",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Vinncz/GamePantry",
+      "state" : {
+        "revision" : "14f0f4c6d1ec1fb7239a1c8c1eea377cb504616a",
+        "version" : "0.1.2"
+      }
+    }
+  ],
+  "version" : 3
+}
