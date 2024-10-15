@@ -10,7 +10,7 @@ extension Logger {
 
 
 func debug ( _ message: String ) {
-    if ( CompositionRoot.configuration.debugEnabled ) {
+    if ( ServerComposer.configuration.debugEnabled ) {
         Logger.shared.log("\(message)")
     }
 } 

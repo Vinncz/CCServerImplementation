@@ -1,9 +1,9 @@
 import GamePantry
 
-public class PanelRuntimeContainer {
+public class PanelRuntimeContainer : ObservableObject {
     
-    private var registeredPanels : [GamePanel]
-    private var playerMapping    : [MCPeerID: GamePanel]
+    @Published public var registeredPanels : [GamePanel]
+    @Published public var playerMapping    : [MCPeerID: GamePanel]
     
     public init () {
         self.registeredPanels = []
@@ -25,12 +25,13 @@ extension PanelRuntimeContainer {
         SymbolsPanel.self,
         SwitchesPanel.self,
     ]
+    
 }
 
 extension PanelRuntimeContainer {
     
-    public func getRegisteredPanelTypes () -> [String] {
-        self.registeredPanels.map { $0.panelId }
+    public func getRegisteredPanelTypes () -> [GamePanel.Type] {
+        self.registeredPanels.map { type(of: $0) }
     }
     
     public func getRegisteredPanels () -> [GamePanel] {

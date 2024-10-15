@@ -1,25 +1,36 @@
 import GamePantry
 
-public class NetworkManager : GPGameServerNetworkManager {
+@Observable public class NetworkManager : GPGameServerNetworkManager, ObservableObject {
     
     public let myself : MCPeerID
     
-    public let eventListener     : any GamePantry.GPGameEventListener
-    public let eventBroadcaster  : GamePantry.GPGameEventBroadcaster
+    public var eventListener     : any GamePantry.GPGameEventListener
+    public var eventBroadcaster  : GamePantry.GPGameEventBroadcaster
     public var advertiserService : any GamePantry.GPGameServerAdvertiser
     
     public let gameProcessConfig : GamePantry.GPGameProcessConfiguration
     
     public init ( router: GPEventRouter, config configuration: GPGameProcessConfiguration ) {
-        myself                 = MCPeerID(displayName: "CCServer-\(configuration.gameVersion)")
+        gameProcessConfig = configuration
         
-        self.eventListener     = NetworkEventListener(router: router)
-        self.eventBroadcaster  = NetworkEventBroadcaster(serves: myself, router: router).pair(self.eventListener)
-        self.advertiserService = GameServerAdvertiser(serves: myself, config: configuration, router: router)
+        let myself = MCPeerID(displayName: "CCServer-\(configuration.gameVersion)")
+        self.myself = myself
         
-        self.gameProcessConfig = configuration
+        let el = NetworkEventListener(router: router)
+        let eb = NetworkEventBroadcaster(serves: myself, router: router)
+        let ad = GameServerAdvertiser(serves: myself, configuredWith: configuration, router: router)
         
-        eventListener.startListening(eventListener)
+        self.eventListener     = el
+        self.eventBroadcaster  = eb.pair(el)
+        self.advertiserService = ad
+        
+        self.eventListener$     = el
+        self.eventBroadcaster$  = eb
+        self.advertiserService$ = ad
     }
+    
+    @ObservationIgnored @Published public var eventListener$     : any GamePantry.GPGameEventListener
+    @ObservationIgnored @Published public var eventBroadcaster$  : GamePantry.GPGameEventBroadcaster
+    @ObservationIgnored @Published public var advertiserService$ : any GamePantry.GPGameServerAdvertiser
     
 }

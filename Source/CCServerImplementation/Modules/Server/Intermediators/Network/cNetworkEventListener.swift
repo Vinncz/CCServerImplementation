@@ -10,7 +10,7 @@ public class NetworkEventListener : GPGameEventListener {
     
     public func heardNews ( of: MCPeerID, to: MCSessionState ) {
         if !emit (
-            GPAcquaintanceEvent (
+            GPAcquaintanceStatusUpdateEvent (
                 subject : of, 
                 status  : to
             )
@@ -38,6 +38,11 @@ public class NetworkEventListener : GPGameEventListener {
     }
     
     public func heardCompletionOfResourceTransfer ( context: String, sender: MCPeerID, savedAt: URL?, withAccompanyingErrorOf: (any Error)? ) {
+        fatalError("not implemented")
+        
+    }
+    
+    public func heardCertificate(from peer: MCPeerID, _ certificate: [Any]?, _ certificateHandler: @escaping (Bool) -> Void) {
         fatalError("not implemented")
         
     }

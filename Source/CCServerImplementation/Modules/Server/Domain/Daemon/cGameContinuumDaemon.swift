@@ -3,7 +3,7 @@ import GamePantry
 
 public class GameContinuumDaemon {
     
-    public weak var coordinator : CompositionRoot?
+    public weak var coordinator : ServerComposer?
     public weak var eventRouter : GamePantry.GPEventRouter?
     private var subscriptions    : Set<AnyCancellable>
     
@@ -20,32 +20,35 @@ public class GameContinuumDaemon {
 
 extension GameContinuumDaemon {
     
-    public func beginWatchingPlayerCount () {
-        coordinator?.playerRuntimeContainer.objectWillChange.sink { _ in
-            if self.getWhitelistedAndConnectedPlayerCount() < 2 {
-                self.terminateTheGameAndDisconnectEveryone()
-            }
-        }.store(in: &subscriptions)
-    }
+    // public func beginWatchingPlayerCount () {
+    //     coordinator?.playerRuntimeContainer.objectWillChange.sink { _ in
+    //         if self.getWhitelistedAndConnectedPlayerCount() < 2 {
+    //             self.terminateTheGameAndDisconnectEveryone()
+    //         }
+    //     }.store(in: &subscriptions)
+    // }
     
-    private func getWhitelistedAndConnectedPlayerCount () -> Int {
-        coordinator?
-            .playerRuntimeContainer
-            .getWhitelistedPartiesAndTheirState()
-            .filter { _, state in
-                state == .connected
-            }.count ?? 0
-    }
+    // private func getWhitelistedAndConnectedPlayerCount () -> Int {
+    //     coordinator?
+    //         .playerRuntimeContainer
+    //         .getWhitelistedPartiesAndTheirState()
+    //         .filter { _, state in
+    //             state == .connected
+    //         }.count ?? 0
+    // }
     
-    private func terminateTheGameAndDisconnectEveryone () {
-        for player in self.coordinator?.playerRuntimeContainer.getWhitelistedPartiesAndTheirState() ?? [:] {
-            _ = self.emit (
-                GPTerminationEvent (
-                    subject: player.key.displayName, reason: "Connected players count are too low to continue"
-                )
-            )
-        }
-    }
+    // private func terminateTheGameAndDisconnectEveryone () {
+    //     for player in self.coordinator?.playerRuntimeContainer.getWhitelistedPartiesAndTheirState() ?? [:] {
+    //         _ = self.emit (
+    //             GPTerminatedEvent (
+    //                 subject: player.key.displayName, 
+    //                 reason: "Connected players count are too low to continue",
+    //                 // TODO: Invalid authorizedBy credential
+    //                 authorizedBy: "Game Continuum Daemon"
+    //             )
+    //         )
+    //     }
+    // }
     
 }
 

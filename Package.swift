@@ -12,7 +12,7 @@ let package = Package(
         .tvOS(.v15)
     ],
     dependencies: [
-        .package(url: "https://github.com/Vinncz/GamePantry.git", .upToNextMajor(from: "0.1.3"))
+        .package(url: "https://github.com/Vinncz/GamePantry.git", .upToNextMajor(from: "0.2.2"))
     ],
     targets: [
         .target(

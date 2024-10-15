@@ -5,6 +5,7 @@ public struct TaskReportEvent : GPEvent, GPSendableEvent, GPReceivableEvent {
     public let submitterName  : String
     public let taskIdentifier : String
     public let isAccomplished : Bool
+    public let penaltyPoints  : Int
     
     public let id             : String = "TaskReportEvent"
     public let purpose        : String = "Reports the result of the execution of a task"
@@ -12,10 +13,11 @@ public struct TaskReportEvent : GPEvent, GPSendableEvent, GPReceivableEvent {
     
     public var payload        : [String: Any] = [:]
     
-    public init ( submittedBy: String, taskIdentifier: String, isAccomplished: Bool ) {
+    public init ( submittedBy: String, taskIdentifier: String, isAccomplished: Bool, penaltyPoints: Int = 0 ) {
         self.submitterName  = submittedBy
         self.taskIdentifier = taskIdentifier
         self.isAccomplished = isAccomplished
+        self.penaltyPoints  = penaltyPoints
     }
     
 }
@@ -26,7 +28,8 @@ extension TaskReportEvent {
         case eventId        = "eventId",
              submitterName  = "submitterName",
              taskIdentifier = "taskIdentifier",
-             isAccomplished = "isAccomplished"
+             isAccomplished = "isAccomplished",
+             penaltyPoints  = "penaltyPoints"
     }
     
     public func value ( for key: PayloadKeys ) -> Any? {
@@ -43,7 +46,8 @@ extension TaskReportEvent {
                 PayloadKeys.eventId.rawValue        : self.id,
                 PayloadKeys.submitterName.rawValue  : self.submitterName,
                 PayloadKeys.taskIdentifier.rawValue : self.taskIdentifier,
-                PayloadKeys.isAccomplished.rawValue : self.isAccomplished.description
+                PayloadKeys.isAccomplished.rawValue : self.isAccomplished.description,
+                PayloadKeys.penaltyPoints.rawValue  : self.penaltyPoints.description
             ]
         } ?? Data()
     }
@@ -57,7 +61,8 @@ extension TaskReportEvent {
             "TaskReportEvent" == payload[PayloadKeys.eventId.rawValue] as? String,
             let submitterName  = payload[PayloadKeys.submitterName.rawValue] as? String,
             let taskIdentifier = payload[PayloadKeys.taskIdentifier.rawValue] as? String,
-            let isAccomplished = Bool(payload[PayloadKeys.isAccomplished.rawValue] as? String ?? "false")
+            let isAccomplished = Bool(payload[PayloadKeys.isAccomplished.rawValue] as? String ?? "false"),
+            let penaltyPoints  = Int(payload[PayloadKeys.penaltyPoints.rawValue] as? String ?? "0")
         else {
             return nil
         }
@@ -65,7 +70,8 @@ extension TaskReportEvent {
         return TaskReportEvent (
             submittedBy    : submitterName,
             taskIdentifier : taskIdentifier,
-            isAccomplished : isAccomplished
+            isAccomplished : isAccomplished,
+            penaltyPoints  : penaltyPoints
         )
     }
     

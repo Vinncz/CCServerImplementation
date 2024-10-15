@@ -26,7 +26,7 @@ extension NetworkEventBroadcaster : GPHandlesEvents {
     
     private func handle ( _ event: GPEvent ) {
         switch ( event ) {
-            case is GPAcquaintanceEvent:
+            case is GPAcquaintanceStatusUpdateEvent:
                 break
             default:
                 break

@@ -4,13 +4,14 @@ public class GameServerAdvertiser : GPGameServerAdvertiser {
     
     public var eventRouter : GPEventRouter?
     
-    public init ( serves: MCPeerID, config: GPGameProcessConfiguration, router: GPEventRouter ) {
-        super.init(serves: serves, serviceType: config.serviceType)
+    public init ( serves owner: MCPeerID, configuredWith config: GPGameProcessConfiguration, router: GPEventRouter ) {
+        super.init(serves: owner, configuredWith: config)
+        self.eventRouter = router
     }
     
     public func unableToAdvertise ( error: any Error ) {
         if !emit (
-            UnableToAdvertiseEvent (
+            GPUnableToAdvertiseEvent (
                 dueTo: error.localizedDescription
             )
         ) {
@@ -20,7 +21,7 @@ public class GameServerAdvertiser : GPGameServerAdvertiser {
 
     public func didReceiveAdmissionRequest ( from peer: MCPeerID, withContext: Data?, admitterObject: @escaping (Bool, MCSession?) -> Void ) {
         if !emit (
-            JoinRequestEvent (
+            GPGameJoinRequestedEvent (
                 requestedBy: peer.displayName
             )
         ) {

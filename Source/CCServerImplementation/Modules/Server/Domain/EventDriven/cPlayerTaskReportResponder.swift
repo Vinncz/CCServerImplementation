@@ -2,13 +2,16 @@ import GamePantry
 
 public class PlayerTaskReportResponder {
     
-    public weak var coordinator : CompositionRoot?
-    public weak var eventRouter : GamePantry.GPEventRouter?
-    public var subscriptions    : Set<AnyCancellable>
+    public var relay         : Relay?
+    public var subscriptions : Set<AnyCancellable>
     
-    public init ( router: GPEventRouter ) {
-        self.eventRouter   = router
+    public init () {
         self.subscriptions = []
+    }
+    
+    public struct Relay : CommunicationPortal {
+        weak var eventRouter          : GPEventRouter?
+        weak var gameRuntimeContainer : GameRuntimeContainer?
     }
     
     deinit {
@@ -20,7 +23,15 @@ public class PlayerTaskReportResponder {
 extension PlayerTaskReportResponder : GPHandlesEvents {
     
     public func placeSubscription ( on eventType: any GamePantry.GPEvent.Type ) {
-        eventRouter?.subscribe(to: eventType)?.sink { event in
+        guard let relay = self.relay else {
+            debug("PlayerTaskReportResponder is unable to place subscription: relay is missing or not set"); return
+        }
+        
+        guard let eventRouter = relay.eventRouter else {
+            debug("PlayerTaskReportResponder is unable to place subscription: eventRouter is missing or not set"); return
+        }
+        
+        eventRouter.subscribe(to: eventType)?.sink { event in
             self.handle(event)
         }.store(in: &subscriptions)
     }
@@ -29,8 +40,6 @@ extension PlayerTaskReportResponder : GPHandlesEvents {
         switch ( event ) {
             case let event as TaskReportEvent:
                 handlePlayerTaskReportEvent(event)
-                break
-                
             default:
                 debug("Unhandled event: \(event)")
                 break
@@ -42,7 +51,15 @@ extension PlayerTaskReportResponder : GPHandlesEvents {
 extension PlayerTaskReportResponder : GPEmitsEvents {
     
     public func emit ( _ event: GPEvent ) -> Bool {
-        return eventRouter?.route(event) ?? false
+        guard let relay = self.relay else {
+            debug("PlayerTaskReportResponder is unable to emit: relay is missing or not set"); return false
+        }
+        
+        guard let eventRouter = relay.eventRouter else {
+            debug("PlayerTaskReportResponder is unable to emit: eventRouter is missing or not set"); return false
+        }
+        
+        return eventRouter.route(event)
     }
     
 }
@@ -50,9 +67,21 @@ extension PlayerTaskReportResponder : GPEmitsEvents {
 extension PlayerTaskReportResponder {
     
     private func handlePlayerTaskReportEvent ( _ event: TaskReportEvent ) {
-        let playerIsNotBlacklisted : Bool = coordinator?.playerRuntimeContainer.getPlayer(named: event.submitterName)?.isBlacklisted ?? false
+        guard let relay = self.relay else {
+            debug("PlayerTaskReportResponder is unable to handle events: relay is missing or not set"); return
+        }
         
-        guard playerIsNotBlacklisted else { return }
+        guard let gameRuntimeContainer = relay.gameRuntimeContainer else {
+            debug("PlayerTaskReportResponder is unable to handle events: gameRuntimeContainer is missing or not set"); return
+        }
+        
+        if ( event.isAccomplished ) {
+            gameRuntimeContainer.tasksProgression.advance(by: 1)
+            debug("PlayerTaskReportResponder advances the task progression by one")
+        } else {
+            gameRuntimeContainer.penaltiesProgression.advance(by: 1)
+            debug("PlayerTaskReportResponder advances the penalty progression by one")
+        }
     }
     
 }

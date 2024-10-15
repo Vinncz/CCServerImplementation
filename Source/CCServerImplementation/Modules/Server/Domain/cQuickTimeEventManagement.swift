@@ -2,7 +2,7 @@ import GamePantry
 
 public class QuickTimeEventManagement {
     
-    public weak var coordinator : CompositionRoot?
+    public weak var coordinator : ServerComposer?
     public weak var eventRouter : GamePantry.GPEventRouter?
     public var subscriptions    : Set<AnyCancellable>
     

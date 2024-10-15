@@ -3,12 +3,12 @@ import GamePantry
 
 public class PlayerRuntimeContainer : ObservableObject {
     
-    private var acquaintancedParties : [MCPeerID: MCSessionState] {
+    @Published public var acquaintancedParties : [MCPeerID: MCSessionState] {
         didSet {
             objectWillChange.send()
         }
     }
-    private var blacklistedParties   : [MCPeerID: MCSessionState] {
+    @Published public var blacklistedParties   : [MCPeerID: MCSessionState] {
         didSet {
             objectWillChange.send()
         }

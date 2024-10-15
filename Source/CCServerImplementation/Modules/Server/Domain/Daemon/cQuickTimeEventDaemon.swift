@@ -2,7 +2,7 @@ import GamePantry
 
 public class QuickTimeEventDaemon {
     
-    public weak var coordinator : CompositionRoot?
+    public weak var coordinator : ServerComposer?
     public weak var eventRouter : GamePantry.GPEventRouter?
     private var subscriptions    : Set<AnyCancellable>
     
